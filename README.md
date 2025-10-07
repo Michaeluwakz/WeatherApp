@@ -15,7 +15,8 @@ Built with React Native • One Codebase • Three Platforms (iOS, Android, Web)
 ---
 
 
-<img width="1431" height="740" alt="Screenshot 2025-10-07 at 3 02 45 PM" src="https://github.com/user-attachments/assets/0a7e7151-45b6-47a8-b3d8-2595e93e70bf" />
+<img width="1431" height="740" alt="Screenshot 2025-10-07 at 3 02 45 PM" src="https://github.com/user-attachments/assets/0a7e7151-45b6-47a8-b3d8-2595e93e70bf" />  <img width="1439" height="817" alt="Screenshot 2025-10-07 at 3 34 20 PM" src="https://github.com/user-attachments/assets/bb321e6e-81ae-4c2e-9879-82a96304a1f6" />
+
 
 
 ## ✨ What Makes This Special
