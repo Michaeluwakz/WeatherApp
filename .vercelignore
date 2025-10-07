@@ -1,0 +1,14 @@
+node_modules
+.git
+.gitignore
+ios
+android
+*.log
+.DS_Store
+*.md
+Documentation
+QUICKSTART.md
+SETUP_GUIDE.md
+WEB_GUIDE.md
+RESPONSIVE_FEATURES.md
+

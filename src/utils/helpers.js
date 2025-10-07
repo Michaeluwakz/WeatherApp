@@ -93,3 +93,4 @@ export const getUVIndexCategory = (uvi) => {
   return { category: 'Extreme', color: '#9C27B0' };
 };
 
+

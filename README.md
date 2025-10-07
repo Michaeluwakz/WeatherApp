@@ -236,13 +236,28 @@ Weather conditions automatically change the app's gradient:
 
 ## 🚢 Deployment
 
-### Web Deployment
+### Web Deployment to Vercel (Recommended)
+
+✨ **Quick Deploy:**
+```bash
+# Install Vercel CLI
+npm install -g vercel
+
+# Deploy to Vercel
+vercel
+
+# Production deployment
+vercel --prod
+```
+
+📖 **For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md)**
+
+### Other Web Hosting Options
 ```bash
 # Build production bundle
 npm run build:web
 
 # Deploy dist/ folder to:
-# - Vercel
 # - Netlify
 # - GitHub Pages
 # - Any static hosting service
@@ -329,5 +344,6 @@ Ready to see beautiful weather? Run `npm run web` and enjoy! 🌈
 - **[QUICKSTART.md](QUICKSTART.md)** - Get running in 5 minutes
 - **[SETUP_GUIDE.md](SETUP_GUIDE.md)** - Detailed setup instructions
 - **[WEB_GUIDE.md](WEB_GUIDE.md)** - Web platform specifics
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Deploy to Vercel (fixes loading issues)
 
 **Weather checked: ✅ | Emojis deployed: ✅ | Animations running: ✅**

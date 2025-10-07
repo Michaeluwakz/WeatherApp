@@ -8,6 +8,7 @@
     "start": "react-native start",
     "web": "webpack serve --mode development --config webpack.config.js",
     "build:web": "webpack --mode production --config webpack.config.js",
+    "vercel-build": "webpack --mode production --config webpack.config.js",
     "test": "jest",
     "lint": "eslint ."
   },

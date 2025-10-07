@@ -43,9 +43,21 @@ export const WeatherProvider = ({ children }) => {
       setTemperatureUnit(unit);
       setFavorites(savedFavorites);
 
-      // Try to load weather for last location
+      // Try to load weather for last location with timeout
       if (lastLocation) {
-        await fetchWeatherByCoords(lastLocation.latitude, lastLocation.longitude);
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Weather fetch timeout')), 8000)
+        );
+        
+        try {
+          await Promise.race([
+            fetchWeatherByCoords(lastLocation.latitude, lastLocation.longitude),
+            timeoutPromise
+          ]);
+        } catch (err) {
+          console.log('Could not load last location weather:', err.message);
+          // Don't set error state - let user manually trigger location
+        }
       }
     } catch (error) {
       console.error('Error loading preferences:', error);
@@ -123,7 +135,16 @@ export const WeatherProvider = ({ children }) => {
     setError(null);
 
     try {
-      const coords = await locationService.getCurrentLocation();
+      // Add timeout for location service
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Location request timeout. Please use search or allow location access.')), 10000)
+      );
+      
+      const coords = await Promise.race([
+        locationService.getCurrentLocation(),
+        timeoutPromise
+      ]);
+      
       await fetchWeatherByCoords(coords.latitude, coords.longitude);
     } catch (err) {
       setError(err.message);
@@ -209,4 +230,5 @@ export const WeatherProvider = ({ children }) => {
     </WeatherContext.Provider>
   );
 };
+
 

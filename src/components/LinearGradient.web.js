@@ -29,3 +29,4 @@ const LinearGradient = ({ colors, start, end, style, children, ...props }) => {
 
 export default LinearGradient;
 
+

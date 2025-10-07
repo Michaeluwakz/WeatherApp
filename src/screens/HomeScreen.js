@@ -16,6 +16,7 @@ import HourlyForecast from '../components/HourlyForecast';
 import DailyForecast from '../components/DailyForecast';
 import LoadingScreen from '../components/LoadingScreen';
 import ErrorScreen from '../components/ErrorScreen';
+import WelcomeScreen from '../components/WelcomeScreen';
 import { RainEffect, SunEffect, CloudEffect, SnowEffect } from '../components/WeatherEffects';
 // Removed excessive responsive imports to restore original layout
 
@@ -35,11 +36,8 @@ const HomeScreen = ({ navigation }) => {
   const { theme, isDark } = useTheme();
 
   useEffect(() => {
-    if (!currentWeather) {
-      fetchWeatherByCurrentLocation().catch(() => {
-        // Error already handled in context
-      });
-    }
+    // Don't auto-fetch on mount - let user decide via UI
+    // This prevents infinite loading on Vercel when geolocation fails
   }, []);
 
   const handleRefresh = async () => {
@@ -58,10 +56,22 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
+  // Show loading only when actively fetching
   if (loading && !currentWeather) {
     return <LoadingScreen />;
   }
 
+  // Show welcome screen when no weather data (initial state)
+  if (!currentWeather && !error) {
+    return (
+      <WelcomeScreen 
+        onGetLocation={fetchWeatherByCurrentLocation}
+        onSearchLocation={() => navigation.navigate('Search')}
+      />
+    );
+  }
+
+  // Show error screen only when there's an actual error
   if (error && !currentWeather) {
     return (
       <ErrorScreen 

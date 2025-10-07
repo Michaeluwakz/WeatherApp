@@ -27,3 +27,4 @@ const GradientBackground = ({ colors, children, style, ...props }) => {
 
 export default GradientBackground;
 
+

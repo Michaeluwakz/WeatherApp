@@ -53,3 +53,4 @@ export const DEFAULT_LOCATION = {
   name: 'London',
 };
 
+
