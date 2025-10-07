@@ -14,6 +14,10 @@ Built with React Native • One Codebase • Three Platforms (iOS, Android, Web)
 
 ---
 
+
+<img width="1431" height="740" alt="Screenshot 2025-10-07 at 3 02 45 PM" src="https://github.com/user-attachments/assets/0a7e7151-45b6-47a8-b3d8-2595e93e70bf" />
+
+
 ## ✨ What Makes This Special
 
 Experience weather like never before with **animated weather effects**, **emoji-rich interface**, and **beautiful modern design**. This isn't just another weather app – it's a delightful experience that makes checking the weather enjoyable!
