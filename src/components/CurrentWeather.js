@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from '../context/ThemeContext';
 import { formatTemperature, formatDate } from '../utils/helpers';
 import { getWeatherEmoji } from '../utils/weatherIcons';
-import { fontSizes, spacing, borderRadius, moderateScale, responsiveDimensions } from '../utils/responsive';
+// Removed excessive responsive imports to restore original layout
 
 const CurrentWeather = ({ weather, unit }) => {
   const { theme } = useTheme();
@@ -40,40 +40,13 @@ const CurrentWeather = ({ weather, unit }) => {
         </Text>
       </View>
 
-      <View style={[styles.descriptionCard, { backgroundColor: theme.overlay }]}>
-        <Text style={[styles.description, { color: '#FFFFFF' }]}>
-          {weather.weather[0].description.charAt(0).toUpperCase() + weather.weather[0].description.slice(1)}
-        </Text>
-      </View>
+      <Text style={[styles.description, { color: theme.text }]}>
+        {weather.weather[0].description.charAt(0).toUpperCase() + weather.weather[0].description.slice(1)}
+      </Text>
 
-      <View style={[styles.feelsLikeContainer, { backgroundColor: theme.surfaceVariant }]}>
-        <Text style={styles.feelsLikeEmoji}>🌡️</Text>
-        <Text style={[styles.feelsLike, { color: theme.textSecondary }]}>
-          Feels like {formatTemperature(weather.main.feels_like, unit)}
-        </Text>
-      </View>
-
-      <View style={[styles.tempRange, { backgroundColor: theme.card }]}>
-        <View style={styles.tempItem}>
-          <Text style={styles.tempEmoji}>🔥</Text>
-          <View>
-            <Text style={[styles.tempLabel, { color: theme.textTertiary }]}>High</Text>
-            <Text style={[styles.tempText, { color: theme.text }]}>
-              {formatTemperature(weather.main.temp_max, unit)}
-            </Text>
-          </View>
-        </View>
-        <View style={[styles.divider, { backgroundColor: theme.border }]} />
-        <View style={styles.tempItem}>
-          <Text style={styles.tempEmoji}>❄️</Text>
-          <View>
-            <Text style={[styles.tempLabel, { color: theme.textTertiary }]}>Low</Text>
-            <Text style={[styles.tempText, { color: theme.text }]}>
-              {formatTemperature(weather.main.temp_min, unit)}
-            </Text>
-          </View>
-        </View>
-      </View>
+      <Text style={[styles.feelsLike, { color: theme.textSecondary }]}>
+        Feels like {formatTemperature(weather.main.feels_like, unit)}
+      </Text>
     </View>
   );
 };
@@ -81,33 +54,30 @@ const CurrentWeather = ({ weather, unit }) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    paddingVertical: spacing.lg,
-    paddingHorizontal: spacing.md,
-    maxWidth: responsiveDimensions.isLargeDevice ? 600 : '100%',
-    alignSelf: 'center',
-    width: '100%',
+    paddingVertical: 20,
+    paddingHorizontal: 20,
   },
   locationContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: spacing.sm,
+    marginBottom: 8,
   },
   locationEmoji: {
-    fontSize: moderateScale(20),
-    marginRight: spacing.sm,
+    fontSize: 20,
+    marginRight: 8,
   },
   location: {
-    fontSize: responsiveDimensions.isSmallDevice ? fontSizes.large : fontSizes.xlarge,
+    fontSize: 24,
     fontWeight: 'bold',
   },
   dateContainer: {
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
-    borderRadius: borderRadius.xl,
-    marginBottom: spacing.xl,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 12,
+    marginBottom: 24,
   },
   date: {
-    fontSize: fontSizes.regular,
+    fontSize: 15,
     fontWeight: '500',
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowOffset: { width: 0, height: 1 },
@@ -115,79 +85,28 @@ const styles = StyleSheet.create({
   },
   mainWeather: {
     alignItems: 'center',
-    marginVertical: spacing.lg,
+    marginVertical: 20,
   },
   weatherEmoji: {
-    fontSize: responsiveDimensions.isSmallDevice ? moderateScale(80) : moderateScale(120),
-    marginBottom: spacing.md,
+    fontSize: 120,
+    marginBottom: 16,
   },
   temperature: {
-    fontSize: responsiveDimensions.isSmallDevice ? moderateScale(56) : moderateScale(76),
+    fontSize: 76,
     fontWeight: 'bold',
-    marginTop: spacing.md,
-  },
-  descriptionCard: {
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-    borderRadius: borderRadius.xl,
-    marginTop: spacing.md,
-    marginBottom: spacing.lg,
+    marginTop: 16,
   },
   description: {
-    fontSize: fontSizes.medium,
+    fontSize: 17,
     fontWeight: '500',
-  },
-  feelsLikeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-    borderRadius: borderRadius.xxl,
-    marginBottom: spacing.lg,
-    gap: spacing.sm,
-  },
-  feelsLikeEmoji: {
-    fontSize: moderateScale(20),
+    marginTop: 16,
+    textAlign: 'center',
   },
   feelsLike: {
-    fontSize: fontSizes.regular,
+    fontSize: 15,
     fontWeight: '500',
-  },
-  tempRange: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: spacing.lg,
-    paddingHorizontal: responsiveDimensions.isSmallDevice ? spacing.lg : spacing.xxl,
-    borderRadius: borderRadius.xl,
-    gap: spacing.lg,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  tempItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    flex: 1,
-  },
-  tempEmoji: {
-    fontSize: moderateScale(28),
-  },
-  tempLabel: {
-    fontSize: fontSizes.small,
-    marginBottom: 4,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  tempText: {
-    fontSize: fontSizes.large,
-    fontWeight: 'bold',
-  },
-  divider: {
-    width: 1,
-    height: moderateScale(40),
+    marginTop: 8,
+    textAlign: 'center',
   },
 });
 

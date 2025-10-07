@@ -4,17 +4,29 @@
  */
 
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from '../context/ThemeContext';
 import { formatTemperature, formatDate } from '../utils/helpers';
 import { getWeatherEmoji } from '../utils/weatherIcons';
-import { fontSizes, spacing, borderRadius, moderateScale, responsiveDimensions } from '../utils/responsive';
+
+const { width: screenWidth } = Dimensions.get('window');
+// Removed excessive responsive imports to restore original layout
 
 const HourlyForecast = ({ hourlyData, unit }) => {
   const { theme } = useTheme();
 
   if (!hourlyData || hourlyData.length === 0) return null;
+
+  // Calculate item width to spread across screen with proper spacing
+  const containerPadding = 32; // 16px padding on each side
+  const itemMargin = 8; // 4px margin on each side of item
+  const hourItemWidth = (screenWidth - containerPadding - itemMargin * 2) / 6; // Show 6 items at once
+
+  const handleHourPress = (hour) => {
+    // You can add functionality here like showing detailed hour info
+    console.log('Hour pressed:', formatDate(hour.dt, 'time'), hour);
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: theme.card }]}>
@@ -26,34 +38,63 @@ const HourlyForecast = ({ hourlyData, unit }) => {
         horizontal 
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
+        decelerationRate="fast"
+        snapToInterval={hourItemWidth + 8} // item width + margin
+        snapToAlignment="start"
       >
         {hourlyData.map((hour, index) => {
           const weatherEmoji = getWeatherEmoji(hour.weather[0].icon);
+          const currentTime = new Date();
+          const hourTime = new Date(hour.dt * 1000);
+          const isCurrentHour = currentTime.getHours() === hourTime.getHours() && 
+                               Math.abs(currentTime.getTime() - hourTime.getTime()) < 3600000; // Within 1 hour
           
           return (
-            <View 
+            <TouchableOpacity 
               key={index} 
               style={[
                 styles.hourItem, 
                 { 
-                  backgroundColor: theme.surfaceVariant,
+                  backgroundColor: isCurrentHour ? theme.primary : theme.surfaceVariant,
+                  borderWidth: isCurrentHour ? 2 : 0,
+                  borderColor: isCurrentHour ? theme.accent : 'transparent',
+                  width: hourItemWidth,
                 }
               ]}
+              onPress={() => handleHourPress(hour)}
+              activeOpacity={0.7}
             >
-              <Text style={[styles.time, { color: theme.textSecondary }]}>
+              <Text style={[
+                styles.time, 
+                { 
+                  color: isCurrentHour ? '#FFFFFF' : theme.textSecondary,
+                  fontWeight: isCurrentHour ? 'bold' : '600'
+                }
+              ]}>
                 {formatDate(hour.dt, 'time')}
               </Text>
               <Text style={styles.weatherEmoji}>{weatherEmoji}</Text>
-              <Text style={[styles.temp, { color: theme.text }]}>
+              <Text style={[
+                styles.temp, 
+                { 
+                  color: isCurrentHour ? '#FFFFFF' : theme.text,
+                  fontWeight: isCurrentHour ? 'bold' : 'bold'
+                }
+              ]}>
                 {formatTemperature(hour.main.temp, unit)}
               </Text>
               <View style={styles.precipitationContainer}>
                 <Text style={styles.precipitationEmoji}>💧</Text>
-                <Text style={[styles.precipitation, { color: theme.textTertiary }]}>
+                <Text style={[
+                  styles.precipitation, 
+                  { 
+                    color: isCurrentHour ? 'rgba(255,255,255,0.8)' : theme.textTertiary 
+                  }
+                ]}>
                   {hour.pop ? `${Math.round(hour.pop * 100)}%` : '0%'}
                 </Text>
               </View>
-            </View>
+            </TouchableOpacity>
           );
         })}
       </ScrollView>
@@ -63,64 +104,64 @@ const HourlyForecast = ({ hourlyData, unit }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: spacing.lg,
-    borderRadius: borderRadius.xl,
-    marginHorizontal: spacing.md,
-    marginVertical: spacing.md,
-    maxWidth: responsiveDimensions.isLargeDevice ? 800 : '100%',
-    alignSelf: 'center',
-    width: responsiveDimensions.isLargeDevice ? '90%' : '100%',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
+    padding: 12,
+    borderRadius: 12,
+    marginHorizontal: 16,
+    marginVertical: 8,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: spacing.lg,
-    gap: spacing.md,
+    marginBottom: 12,
+    gap: 8,
   },
   headerEmoji: {
-    fontSize: moderateScale(24),
+    fontSize: 20,
   },
   title: {
-    fontSize: fontSizes.large,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   scrollContent: {
-    gap: spacing.md,
-    paddingRight: spacing.md,
+    paddingHorizontal: 4,
   },
   hourItem: {
-    padding: spacing.lg,
-    borderRadius: borderRadius.lg,
+    padding: 8,
+    borderRadius: 8,
     alignItems: 'center',
-    minWidth: moderateScale(90),
-    gap: spacing.sm,
+    justifyContent: 'center',
+    marginHorizontal: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+    minHeight: 80, // Fixed height to prevent vertical scrolling
   },
   time: {
-    fontSize: fontSizes.small,
+    fontSize: 10,
     fontWeight: '600',
+    marginBottom: 4,
   },
   weatherEmoji: {
-    fontSize: moderateScale(38),
+    fontSize: 24,
+    marginBottom: 4,
   },
   temp: {
-    fontSize: fontSizes.medium,
+    fontSize: 14,
     fontWeight: 'bold',
+    marginBottom: 2,
   },
   precipitationContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.xs,
+    gap: 2,
   },
   precipitationEmoji: {
-    fontSize: moderateScale(12),
+    fontSize: 10,
   },
   precipitation: {
-    fontSize: fontSizes.small,
+    fontSize: 9,
   },
 });
 

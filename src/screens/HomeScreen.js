@@ -17,7 +17,7 @@ import DailyForecast from '../components/DailyForecast';
 import LoadingScreen from '../components/LoadingScreen';
 import ErrorScreen from '../components/ErrorScreen';
 import { RainEffect, SunEffect, CloudEffect, SnowEffect } from '../components/WeatherEffects';
-import { spacing, borderRadius, moderateScale, responsiveDimensions } from '../utils/responsive';
+// Removed excessive responsive imports to restore original layout
 
 const HomeScreen = ({ navigation }) => {
   const { 
@@ -176,27 +176,24 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    maxWidth: responsiveDimensions.isLargeDevice ? 1200 : '100%',
-    alignSelf: 'center',
-    width: '100%',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: spacing.md,
-    paddingTop: responsiveDimensions.isLargeDevice ? spacing.xxl : 50,
-    paddingBottom: spacing.md,
+    paddingHorizontal: 20,
+    paddingTop: 50,
+    paddingBottom: 20,
     zIndex: 10,
   },
   headerRight: {
     flexDirection: 'row',
-    gap: spacing.md,
+    gap: 12,
   },
   iconButton: {
-    width: moderateScale(44),
-    height: moderateScale(44),
-    borderRadius: moderateScale(22),
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
@@ -206,28 +203,28 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   buttonEmoji: {
-    fontSize: moderateScale(22),
+    fontSize: 22,
   },
   scrollView: {
     flex: 1,
     zIndex: 2,
   },
   scrollContent: {
-    paddingBottom: moderateScale(100),
+    paddingBottom: 100,
   },
   contentContainer: {
-    borderTopLeftRadius: borderRadius.xxl,
-    borderTopRightRadius: borderRadius.xxl,
-    paddingTop: spacing.lg,
-    marginTop: spacing.lg,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingTop: 16,
+    marginTop: 16,
   },
   fab: {
     position: 'absolute',
-    right: spacing.lg,
-    bottom: moderateScale(90),
-    width: moderateScale(60),
-    height: moderateScale(60),
-    borderRadius: moderateScale(30),
+    right: 20,
+    bottom: 90,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 6,
@@ -239,11 +236,11 @@ const styles = StyleSheet.create({
   },
   locationFab: {
     position: 'absolute',
-    right: spacing.lg,
-    bottom: spacing.lg,
-    width: moderateScale(60),
-    height: moderateScale(60),
-    borderRadius: moderateScale(30),
+    right: 20,
+    bottom: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 6,
@@ -254,7 +251,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   fabEmoji: {
-    fontSize: moderateScale(26),
+    fontSize: 26,
   },
 });
 

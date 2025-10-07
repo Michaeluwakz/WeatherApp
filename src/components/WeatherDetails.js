@@ -8,7 +8,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from '../context/ThemeContext';
 import { formatWindSpeed, getWindDirection, formatHumidity, formatPressure } from '../utils/helpers';
-import { fontSizes, spacing, borderRadius, moderateScale, responsiveDimensions } from '../utils/responsive';
+// Removed excessive responsive imports to restore original layout
 
 const WeatherDetails = ({ weather, unit }) => {
   const { theme } = useTheme();
@@ -50,11 +50,8 @@ const WeatherDetails = ({ weather, unit }) => {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.card }]}>
-      <View style={styles.header}>
-        <Text style={styles.headerEmoji}>📊</Text>
-        <Text style={[styles.title, { color: theme.text }]}>Weather Details</Text>
-      </View>
-      <View style={styles.grid}>
+      <Text style={[styles.title, { color: theme.text }]}>Weather Details</Text>
+      <View style={styles.details}>
         {detailItems.map((item, index) => (
           <View 
             key={index} 
@@ -62,6 +59,7 @@ const WeatherDetails = ({ weather, unit }) => {
               styles.detailItem, 
               { 
                 backgroundColor: theme.surfaceVariant,
+                borderColor: theme.border,
               }
             ]}
           >
@@ -81,59 +79,43 @@ const WeatherDetails = ({ weather, unit }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: spacing.lg,
-    borderRadius: borderRadius.xl,
-    marginHorizontal: spacing.md,
-    marginVertical: spacing.md,
-    maxWidth: responsiveDimensions.isLargeDevice ? 800 : '100%',
-    alignSelf: 'center',
-    width: responsiveDimensions.isLargeDevice ? '90%' : '100%',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: spacing.lg,
-    gap: spacing.md,
-  },
-  headerEmoji: {
-    fontSize: moderateScale(24),
+    padding: 16,
+    borderRadius: 12,
+    marginHorizontal: 16,
+    marginVertical: 8,
   },
   title: {
-    fontSize: fontSizes.large,
+    fontSize: 20,
     fontWeight: 'bold',
+    marginBottom: 16,
+    textAlign: 'center',
   },
-  grid: {
+  details: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: spacing.md,
+    justifyContent: 'space-between',
   },
   detailItem: {
-    flex: 1,
-    minWidth: responsiveDimensions.isSmallDevice ? '100%' : responsiveDimensions.isLargeDevice ? '30%' : '45%',
-    padding: spacing.lg,
-    borderRadius: borderRadius.lg,
+    width: '48%',
+    padding: 16,
+    borderRadius: 8,
     alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: moderateScale(110),
+    marginBottom: 12,
+    borderWidth: 1,
   },
   emoji: {
-    fontSize: moderateScale(36),
-    marginBottom: spacing.sm,
+    fontSize: 36,
+    marginBottom: 8,
   },
   detailLabel: {
-    fontSize: fontSizes.small,
-    marginTop: spacing.sm,
+    fontSize: 12,
+    marginTop: 8,
     fontWeight: '500',
   },
   detailValue: {
-    fontSize: fontSizes.medium,
+    fontSize: 17,
     fontWeight: 'bold',
-    marginTop: spacing.xs,
+    marginTop: 4,
   },
 });
 
